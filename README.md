@@ -1,112 +1,133 @@
-# Social Media Growth Engine
+# Social Media Growth Engine (SMG)
 
-A full-stack application integrating a web-based admin panel and mobile app to help users collect and repost content related to their favorite topics from various social media platforms, thereby growing their social media following.
-
-## 🤖 AI-Generated Code
-
-**This entire codebase was created using AI to test the feasibility of "vibe coding" - a development approach where code is generated through natural language descriptions and iterative refinement with AI assistance.**
-
-This project serves as a proof of concept for AI-powered software development, demonstrating how complex full-stack applications can be built entirely through AI code generation. The implementation includes:
-
-- Complete application architecture and setup
-- Database schema design and migrations
-- Authentication system with multiple providers
-- Responsive UI with Chinese localization
-- Docker containerization and development environment
-- Full test suite and deployment configuration
-
-All code, documentation, and configuration files in this repository were generated through AI assistance, showcasing the current capabilities and potential of AI in software development.
+A comprehensive full-stack application for managing social media content growth with a web-based admin panel and a mobile app.
 
 ## 🏗️ Architecture
 
-### Technology Stack
-- **Frontend**: Next.js + TypeScript + Tailwind CSS
-- **Backend**: Go + PostgreSQL
+### Components:
+- **Web Admin Panel**: Next.js with Tailwind CSS
 - **Mobile App**: Flutter (iOS + Android)
+- **Backend API**: Go with Gin framework
 - **Database**: PostgreSQL with Prisma ORM
-- **Authentication**: NextAuth.js (Google OAuth + Email/Password)
-- **Development Environment**: Docker Compose
+- **Cache**: Redis
+- **Background Jobs**: Go scheduler service
 
-### Project Structure
+### Repository Structure:
 ```
 root/
 ├── apps/
 │   ├── web/               # Next.js Admin Panel
 │   └── app/               # Flutter Mobile App
-├── cmd/                   # Go CLI Tools
-├── pkg/                   # Shared Go Modules
-├── scripts/               # Scripts and Tools
-├── docs/                  # Documentation
-├── Makefile              # Project Commands
-└── docker-compose.yml    # Docker Configuration
+├── cmd/                   # Go CLI tools and services
+│   ├── api/               # REST API server
+│   ├── scheduler/         # Background job scheduler
+│   └── migrate/           # Database migration tool
+├── pkg/                   # Shared Go modules
+│   ├── models/            # Data models
+│   ├── services/          # Business logic
+│   ├── handlers/          # HTTP handlers
+│   ├── middleware/        # HTTP middleware
+│   └── config/            # Configuration
+├── scripts/               # Setup scripts
+├── Makefile              # Build and dev commands
+├── docker-compose.yml    # Docker services
+└── docs/                 # Documentation
 ```
 
 ## 🚀 Quick Start
 
-### Prerequisites
+### Prerequisites:
+- Docker and Docker Compose
+- Go 1.21+
 - Node.js 18+
-- Docker & Docker Compose
-- PostgreSQL (or use Docker)
+- Flutter 3.0+
 
-### Installation Steps
+### 1. Clone and Setup:
+```bash
+git clone <repository-url>
+cd smg
+make env          # Create .env file
+make setup        # Install dependencies
+```
 
-1. **Clone the repository**
-   ```bash
-   git clone <repository-url>
-   cd smg
-   ```
+### 2. Start Services:
+```bash
+make start        # Start all services with Docker
+```
 
-2. **Set up environment variables**
-   ```bash
-   cp apps/web/.env.local.example apps/web/.env.local
-   # Edit .env.local file and set your environment variables
-   ```
+### 3. Run Database Migrations:
+```bash
+make migrate      # Run Prisma migrations
+```
 
-3. **Start the database**
-   ```bash
-   make start
-   ```
-
-4. **Generate Prisma client**
-   ```bash
-   make generate
-   ```
-
-5. **Run database migrations**
-   ```bash
-   make migrate
-   ```
-
-6. **Start development server**
-   ```bash
-   make web
-   ```
+### 4. Access the Application:
+- Web Admin: http://localhost:3000
+- API Server: http://localhost:8080
+- Database Studio: `make studio`
 
 ## 📱 Features
 
-### User Dashboard
-- **Topic Management**: Create and manage topics of interest
-- **Media Links**: Connect various social media accounts
-- **Article Management**: Browse and manage collected articles
-- **System Settings**: Configure automatic reposting logic
+### Web Admin Panel:
+- **Authentication**: Google OAuth2 and Email/Password
+- **User Dashboard** (中文界面):
+  - 主題管理 (Topic Management)
+  - 媒體連結 (Media Connections)
+  - 文章管理 (Content Management)
+  - 系統設定 (System Settings)
+- **Admin Backend**:
+  - 用戶管理 (User Management)
+  - 社群媒體設定 (Platform Settings)
+  - 系統設定 (System Configuration)
 
-### Admin Dashboard
-- **User Management**: Manage all user accounts
-- **Social Media Settings**: Configure platform API settings
-- **System Settings**: Configure SMTP and other system settings
+### Mobile App:
+- QR Code login
+- Topic-based content browsing
+- Content approval and reposting
+- Offline capability
 
-## 🛠️ Available Commands
+### Backend Services:
+- RESTful API with JWT authentication
+- Background job scheduling
+- Real-time data synchronization
+- Social media platform integration
 
-| Command | Description |
-|---------|-------------|
-| `make start` | Start all services (Docker Compose) |
-| `make stop` | Stop all services |
-| `make web` | Start web development server |
-| `make migrate` | Run database migrations |
-| `make generate` | Generate Prisma client |
-| `make studio` | Start Prisma Studio |
-| `make install` | Install dependencies |
-| `make clean` | Clean build artifacts |
+## 🛠️ Development
+
+### Available Make Commands:
+```bash
+# Development
+make web          # Start Next.js dev server
+make api          # Start Go API server
+make scheduler    # Start background scheduler
+make run-flutter  # Start Flutter app
+
+# Database
+make migrate      # Run Prisma migrations
+make migrate-go   # Run Go migrations
+make studio       # Open Prisma Studio
+make reset        # Reset database
+
+# Building
+make build        # Build web app
+make build-go     # Build Go services
+make build-flutter # Build Flutter APK
+
+# Testing
+make test-go      # Run Go tests
+make test-flutter # Run Flutter tests
+
+# Utilities
+make format       # Format all code
+make clean        # Clean build artifacts
+make logs         # View Docker logs
+```
+
+### Environment Variables:
+Copy `.env.example` to `.env` and update the values:
+- Database connection strings
+- JWT secrets
+- Social media API keys
+- SMTP settings for email notifications
 
 ## 📚 Documentation
 

@@ -41,6 +41,43 @@ services:
     volumes:
       - redis_data:/data
 
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/smg_db
+      - REDIS_URL=redis:6379
+      - JWT_SECRET=development-jwt-secret
+      - PORT=8080
+      - ENVIRONMENT=development
+    volumes:
+      - .:/app
+    command: go run cmd/api/main.go
+
+  scheduler:
+    build:
+      context: .
+      dockerfile: Dockerfile.scheduler
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/smg_db
+      - REDIS_URL=redis:6379
+      - JWT_SECRET=development-jwt-secret
+      - ENVIRONMENT=development
+    volumes:
+      - .:/app
+    command: go run cmd/scheduler/main.go
+
   migration:
     build:
       context: ./apps/web
